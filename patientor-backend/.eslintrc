@@ -31,6 +31,6 @@
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "project": "./tsconfig.json"
+        "project": "C:\\Users\\DUC NGUYEN\\FullstackOpen2022\\part9\\patientor-backend\\tsconfig.json"
     }
 }
