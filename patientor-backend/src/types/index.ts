@@ -29,6 +29,7 @@ interface IBaseEntry {
   date: string;
   specialist: string;
   diagnosisCodes?: Array<IDiagnoses["code"]>;
+  type: string;
 }
 
 interface IHospitalEntryDischarge {
@@ -87,3 +88,9 @@ export type NonSensitivePatients = Omit<
   IPatients,
   "id" | "name" | "dateOfBirth" | "ssn" | "gender" | "occupation" | "entries"
 >;
+
+export type EntryFormHospitalValues = Omit<IHospitalEntry, "id">;
+export type EntryFormOccupationalHealthcareValues = Omit<IOccupationalHealthcareEntry, "id">;
+export type EntryFormHealthCheckValues = Omit<IHealthCheckEntry, "id">;
+
+export type BaseEntryFormValues = EntryFormHospitalValues | EntryFormOccupationalHealthcareValues | EntryFormHealthCheckValues;

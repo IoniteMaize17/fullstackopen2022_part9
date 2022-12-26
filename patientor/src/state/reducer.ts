@@ -15,6 +15,13 @@ export const setDiagnosesList = (diagnoses: Diagnosis[]): Action => {
   };
 };
 
+export const addPatientToList = (patient: Patient): Action => {
+  return {
+    type: "ADD_PATIENT",
+    payload: patient
+  };
+};
+
 export type Action =
   | {
       type: "SET_PATIENT_LIST";

@@ -66,3 +66,9 @@ export interface Patient {
   dateOfBirth?: string;
   entries?: Entry[];
 }
+
+export type EntryFormHospitalValues = Omit<IHospitalEntry, "id">;
+export type EntryFormOccupationalHealthcareValues = Omit<IOccupationalHealthcareEntry, "id">;
+export type EntryFormHealthCheckValues = Omit<IHealthCheckEntry, "id">;
+
+export type BaseEntryFormValues = EntryFormHospitalValues | EntryFormOccupationalHealthcareValues | EntryFormHealthCheckValues;

@@ -2,7 +2,7 @@
 import express from "express";
 import { body, validationResult } from 'express-validator';
 import { patientService } from "../services/patients";
-import { INewIPatient, isGender } from "../types";
+import { BaseEntryFormValues, INewIPatient, isGender } from "../types";
 const patientRouter = express.Router();
 
 patientRouter.get("/", (_req, res) => {
@@ -10,14 +10,31 @@ patientRouter.get("/", (_req, res) => {
 });
 
 patientRouter.get('/:id', (req, res) => {
-    const diary = patientService.findById(req.params.id);
-
-    if (diary) {
-        res.send(diary);
+    const patient = patientService.findById(req.params.id);
+    if (patient) {
+        res.send(patient);
     } else {
         res.sendStatus(404);
     }
 });
+
+patientRouter.post('/:id/entries',
+    body('description').exists(),
+    body('date').exists(),
+    body('date').isDate(),
+    body('specialist').exists(),
+    body('type').exists(),
+    (req, res) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        const patient = patientService.detailById(req?.params?.id ?? '');
+        const entry: BaseEntryFormValues = req.body;
+        if (patient) {
+            const update = patientService.addEntry(patient, entry);
+            res.send(update);
+        } else {
+            res.sendStatus(404);
+        }
+    });
 
 patientRouter.post('/',
     body('name').exists(),
@@ -37,8 +54,8 @@ patientRouter.post('/',
         if (!errors.isEmpty()) {
             res.status(400).json({ error: errors.array()[0].msg + ' with ' + errors.array()[0].param });
         }
-        const entry: INewIPatient = req.body;
-        const newPatient = patientService.addPatient(entry);
+        const patientNew: INewIPatient = req.body;
+        const newPatient = patientService.addPatient(patientNew);
         res.json(newPatient);
     });
 
